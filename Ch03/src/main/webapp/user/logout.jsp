@@ -3,7 +3,4 @@
 	// 세션종료
 	session.invalidate();
 	response.sendRedirect("../6_session.jsp");
-
-
-
 %>
