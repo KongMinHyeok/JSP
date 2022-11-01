@@ -21,6 +21,7 @@
 		ResultSet rs = psmt.executeQuery();
 		
 		if(rs.next()){
+			
 			ub = new UserBean();
 			ub.setUid(rs.getString(1));
 			ub.setPass(rs.getString(2));

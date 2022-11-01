@@ -8,13 +8,21 @@ public class ArticleBean {
 	private String title;
 	private String content;
 	private int file;
- 	private int hit;
+	private int hit;
 	private String uid;
 	private String regip;
 	private String rdate;
 	
 	// 추가 필드
 	private String nick;
+	private String fname;
+	
+	public String getFname() {
+		return fname;
+	}
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
 	
 	private int fno;
 	private String oriName;
@@ -47,6 +55,7 @@ public class ArticleBean {
 	public void setNick(String nick) {
 		this.nick = nick;
 	}
+	
 	public int getNo() {
 		return no;
 	}
@@ -58,6 +67,9 @@ public class ArticleBean {
 	}
 	public void setParent(int parent) {
 		this.parent = parent;
+	}
+	public void setParent(String parent) {
+		this.parent = Integer.parseInt(parent);
 	}
 	public int getComment() {
 		return comment;
@@ -113,6 +125,4 @@ public class ArticleBean {
 	public void setRdate(String rdate) {
 		this.rdate = rdate;
 	}
-	
-	
 }
