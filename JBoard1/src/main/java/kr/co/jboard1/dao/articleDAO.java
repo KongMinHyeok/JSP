@@ -267,9 +267,71 @@ public class articleDAO {
 		return comments;
 	}
 	
-	public void updateArticle() {}
-	public void deleteArticle() {}
+	public void updateArticle(String title, String content, String no) {
+		
+		try {
+			Connection conn = DBCP.getConnection();
+			PreparedStatement psmt = conn.prepareStatement(sql.UPDATE_ARTICLE);
+			psmt.setString(1, title);
+			psmt.setString(2, content);
+			psmt.setString(3, no);
+			
+			psmt.executeUpdate();
+			psmt.close();
+			conn.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void deleteArticle(String no) {
+		
+		try {
+		Connection conn = DBCP.getConnection();
+		PreparedStatement psmt = conn.prepareStatement(sql.DELETE_ARTICLE);
+		psmt.setString(1, no);
+		psmt.setString(2, no);
+		
+		psmt.executeUpdate();
+		psmt.close();
+		conn.close();
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 	
+	public String deleteFile(String parent) {
+		
+		String newName = null;
+		
+		try {
+		Connection conn = DBCP.getConnection();
+		
+		conn.setAutoCommit(false);
+		
+		PreparedStatement psmt1 = conn.prepareStatement(sql.SELECT_FILE_WITH_PARENT); 
+		PreparedStatement psmt2 = conn.prepareStatement(sql.DELETE_FILE);
+		psmt1.setString(1, parent);
+		psmt2.setString(1, parent);
+		
+		ResultSet rs = psmt1.executeQuery();
+		psmt2.executeUpdate();
+		
+		conn.commit();
+		
+		if(rs.next()) {
+			newName = rs.getString(3);
+		}
+		
+		psmt1.close();
+		psmt2.close();
+		conn.close();
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return newName;
+	}
 	// 전체 게시물 카운트
 	public int selectCountTotal() {
 		
