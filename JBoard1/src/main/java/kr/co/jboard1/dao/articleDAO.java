@@ -7,12 +7,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import kr.co.jboard1.bean.ArticleBean;
 import kr.co.jboard1.bean.FileBean;
 import kr.co.jboard1.db.DBCP;
 import kr.co.jboard1.db.sql;
 
 public class articleDAO {
+	
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private static articleDAO instance = new articleDAO();
 	public static articleDAO getInstance() {
@@ -24,6 +29,7 @@ public class articleDAO {
 	public int insertArticle(ArticleBean article) {
 		int parent = 0;
 		try{
+			logger.info("insertArticle start...");
 			Connection conn = DBCP.getConnection();
 			
 			// 트랜젝션 시작
@@ -54,6 +60,7 @@ public class articleDAO {
 			conn.close();
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		
 		return parent;
@@ -61,6 +68,7 @@ public class articleDAO {
 	
 	public void insertFile(int parent, String newName, String fname) {
 		try{
+			logger.info("insertFile start...");
 			Connection conn = DBCP.getConnection();
 			PreparedStatement psmt = conn.prepareStatement(sql.INSERT_FILE);
 			psmt.setInt(1, parent);
@@ -73,6 +81,7 @@ public class articleDAO {
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 	}
 	
@@ -81,6 +90,7 @@ public class articleDAO {
 		ArticleBean article = null;
 		
 		try{
+			logger.info("insertComment start...");
 			Connection conn = DBCP.getConnection();
 			
 			// 트랜잭션 시작
@@ -116,6 +126,7 @@ public class articleDAO {
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		
 		return article;
@@ -125,6 +136,7 @@ public class articleDAO {
 		ArticleBean article = null;
 		
 		try{
+			logger.info("selectArticle start...");
 			Connection conn = DBCP.getConnection();
 			PreparedStatement psmt = conn.prepareStatement(sql.SELECT_ARTICLE);
 			psmt.setString(1, no);
@@ -154,6 +166,7 @@ public class articleDAO {
 			conn.close();
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		
 		return article;
@@ -164,6 +177,7 @@ public class articleDAO {
 		List<ArticleBean> articles = new ArrayList<>();	
 		
 		try{
+			logger.info("selectArticle start...");
 			Connection conn = DBCP.getConnection();
 			PreparedStatement psmt = conn.prepareStatement(sql.SELECT_ARTICLES);
 			psmt.setInt(1, start);
@@ -193,6 +207,7 @@ public class articleDAO {
 			conn.close();		
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		
 		return articles;
@@ -203,6 +218,7 @@ public class articleDAO {
 		FileBean fb = null;
 		
 		try{
+			logger.info("selectFile start...");
 			Connection conn = DBCP.getConnection();
 			PreparedStatement psmt = conn.prepareStatement(sql.SELECT_FILE);
 			psmt.setString(1, fno);
@@ -224,6 +240,7 @@ public class articleDAO {
 			conn.close();
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		return fb;
 	}
@@ -233,6 +250,7 @@ public class articleDAO {
 		List<ArticleBean> comments = new ArrayList<>();
 		
 		try {
+			logger.info("selectComment start...");
 			Connection conn = DBCP.getConnection();
 			PreparedStatement psmt = conn.prepareStatement(sql.SELECT_COMMENTS);
 			psmt.setString(1, parent);
@@ -262,6 +280,7 @@ public class articleDAO {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		
 		return comments;
@@ -270,6 +289,7 @@ public class articleDAO {
 	public void updateArticle(String title, String content, String no) {
 		
 		try {
+			logger.info("UpdateArticle start...");
 			Connection conn = DBCP.getConnection();
 			PreparedStatement psmt = conn.prepareStatement(sql.UPDATE_ARTICLE);
 			psmt.setString(1, title);
@@ -281,11 +301,13 @@ public class articleDAO {
 			conn.close();
 		}catch(Exception e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 	}
 	public void deleteArticle(String no) {
 		
 		try {
+			logger.info("deleteArticle start...");
 		Connection conn = DBCP.getConnection();
 		PreparedStatement psmt = conn.prepareStatement(sql.DELETE_ARTICLE);
 		psmt.setString(1, no);
@@ -297,6 +319,7 @@ public class articleDAO {
 		
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 	}
 	
@@ -305,32 +328,34 @@ public class articleDAO {
 		String newName = null;
 		
 		try {
-		Connection conn = DBCP.getConnection();
-		
-		conn.setAutoCommit(false);
-		
-		PreparedStatement psmt1 = conn.prepareStatement(sql.SELECT_FILE_WITH_PARENT); 
-		PreparedStatement psmt2 = conn.prepareStatement(sql.DELETE_FILE);
-		psmt1.setString(1, parent);
-		psmt2.setString(1, parent);
-		
-		ResultSet rs = psmt1.executeQuery();
-		psmt2.executeUpdate();
-		
-		conn.commit();
+			logger.info("deleteFile start...");
+			Connection conn = DBCP.getConnection();
+			
+			conn.setAutoCommit(false);
+			
+			PreparedStatement psmt1 = conn.prepareStatement(sql.SELECT_FILE_WITH_PARENT); 
+			PreparedStatement psmt2 = conn.prepareStatement(sql.DELETE_FILE);
+			psmt1.setString(1, parent);
+			psmt2.setString(1, parent);
+			
+			ResultSet rs = psmt1.executeQuery();
+			psmt2.executeUpdate();
+			
+			conn.commit();
 		
 		if(rs.next()) {
 			newName = rs.getString(3);
-		}
+			}
 		
-		psmt1.close();
-		psmt2.close();
-		conn.close();
+			psmt1.close();
+			psmt2.close();
+			conn.close();
 		
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return newName;
+			}catch(Exception e){
+				e.printStackTrace();
+				logger.error(e.getMessage());
+			}
+			return newName;
 	}
 	// 전체 게시물 카운트
 	public int selectCountTotal() {
@@ -338,6 +363,7 @@ public class articleDAO {
 		int total = 0;
 		
 		try {
+			logger.info("selectCountTotal start");
 			Connection conn = DBCP.getConnection();
 			Statement stmt = conn.createStatement();
 			
@@ -352,6 +378,7 @@ public class articleDAO {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		
 		return total;		
@@ -359,6 +386,7 @@ public class articleDAO {
 	
 	public void updateArticleHit(String no) {
 		try{
+			logger.info("UpdateArticleHit start...");
 			Connection conn = DBCP.getConnection();
 			PreparedStatement psmt = conn.prepareStatement(sql.UPDATE_ARTICLE_HIT);
 			psmt.setString(1, no);
@@ -368,11 +396,13 @@ public class articleDAO {
 			conn.close();
 		}catch(Exception e){
 			 e.printStackTrace();
+			 logger.error(e.getMessage());
 		}
 	}
 	
 	public void updateFileDownload(String fno) {
 		try{
+			logger.info("UpdateFileDownload start...");
 			Connection conn = DBCP.getConnection();
 			PreparedStatement psmt = conn.prepareStatement(sql.UPDATE_FILE_DOWNLOAD);
 			psmt.setString(1, fno);
@@ -382,6 +412,7 @@ public class articleDAO {
 			conn.close();
 		}catch(Exception e){
 			 e.printStackTrace();
+			 logger.error(e.getMessage());
 		}
 	}
 
@@ -390,6 +421,7 @@ public class articleDAO {
 		int result = 0;
 		
 		try {
+			logger.info("UpdateComment start...");
 			Connection conn = DBCP.getConnection();
 			PreparedStatement psmt = conn.prepareStatement(sql.UPDATE_COMMENT);
 			psmt.setString(1, content);
@@ -400,7 +432,7 @@ public class articleDAO {
 			conn.close();
 		}catch (Exception e) {
 			e.printStackTrace();
-			// TODO: handle exception
+			logger.error(e.getMessage());
 		}
 		return result;
 	}
@@ -410,6 +442,7 @@ public class articleDAO {
 		int result = 0;
 		
 		try {
+			logger.info("deleteComment start...");
 			Connection conn = DBCP.getConnection();
 			PreparedStatement psmt = conn.prepareStatement(sql.DELETE_COMMENT);
 			psmt.setString(1, no);
@@ -420,7 +453,7 @@ public class articleDAO {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
-			// TODO: handle exception
+			logger.error(e.getMessage());
 		}
 		return result;
 	}
