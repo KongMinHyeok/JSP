@@ -1,4 +1,8 @@
+<%@page import="kr.co.farmstory.bean.UserBean"%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	UserBean sessUser = (UserBean) session.getAttribute("sessUser");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,8 +36,12 @@
             <a href="/Farmstory/" class="logo"><img src="/Farmstory/img/logo.png" alt="로고"/></a>
             <p>
                 <a href="/Farmstory/">HOME |</a>
+                <% if(sessUser == null) { %>
                 <a href="/Farmstory/user/login.jsp">로그인 |</a>
                 <a href="/Farmstory/user/terms.jsp">회원가입 |</a>
+                <% }else{ %>
+                <a href="/Farmstory/user/proc/logout.jsp">로그아웃 |</a>
+                <% } %>
                 <a href="#">고객센터</a>
             </p>
             <img src="/Farmstory/img/head_txt_img.png" alt="3만원 이상 무료배송"/>
