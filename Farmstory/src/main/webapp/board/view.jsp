@@ -2,7 +2,7 @@
 <%@ include file="../_header.jsp" %>
 <%
 	request.setCharacterEncoding("utf-8");
-	
+	String no 
 %>
         <main id="board" class="view">
             <table>

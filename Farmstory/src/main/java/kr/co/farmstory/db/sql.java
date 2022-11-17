@@ -44,7 +44,7 @@ public class sql {
 												+ "`rdate`=NOW()";
 	
 	public static final String SELECT_MAX_NO = "select max(`no`) from `board_article`";
-	public static final String SELECT_COUNT_TOTAL = "SELECT COUNT(`no`) FROM `board_article` where `parent`=0";	
+	public static final String SELECT_COUNT_TOTAL = "SELECT COUNT(`no`) FROM `board_article` where `parent`=0 AND `cate`=?";	
 	public static final String SELECT_ARTICLES = "SELECT a.*, b.`nick` FROM `board_article` AS a "
 												+ "JOIN `board_user` AS b ON a.uid = b.uid "
 												+ "WHERE `parent` = 0 AND `cate`=? "
@@ -60,23 +60,32 @@ public class sql {
 	public static final String SELECT_FILE = "select * from `board_file` where `fno`=?";
 	public static final String SELECT_FILE_WITH_PARENT = "select * from `board_file` where `parent`=?";
 	public static final String SELECT_COMMENTS = "SELECT a.*, b.nick FROM `board_article` AS a "
-												+ "	 `board_user` AS b USING (`uid`) "
+												+ "JOIN `board_user` AS b USING (`uid`) "
 												+ "WHERE `parent`=? ORDER BY `no` ASC";
 	
 	public static final String SELECT_COMMENT_LATEST = "SELECT a.*, b.nick FROM `board_article` AS a "
-												+ "JOIN `board_user` AS b USING(`uid`) "
-												+ "WHERE `parent` != 0 ORDER BY `no` DESC LIMIT 1";
+														+ "JOIN `board_user` AS b USING(`uid`) "
+														+ "WHERE `parent` != 0 ORDER BY `no` DESC LIMIT 1";
 	
-	public static final String UPDATE_ARTICLE = "UPDATE `board_article` set "
+	public static final String SELECT_LATESTS = "(SELECT `no`, `title`, `rdate` FROM `board_article` WHERE `cate`='grow' ORDER BY `no` DESC LIMIT 5) "
+												+ "UNION "
+												+ "(SELECT `no`, `title`, `rdate` FROM `board_article` WHERE `cate`='school' ORDER BY `no` DESC LIMIT 5) "
+												+ "UNION "
+												+ "(SELECT `no`, `title`, `rdate` FROM `board_article` WHERE `cate`='story' ORDER BY `no` DESC LIMIT 5)";
+	
+	public static final String SELECT_LATEST = "SELECT `no`, `title`, `rdate` FROM `board_article` WHERE `cate`=? ORDER BY `no` DESC LIMIT 3";
+	
+	public static final String UPDATE_ARTICLE = "update `board_article` set "
 												+ "`title`=?, `content`=?, `rdate`=NOW() "
-												+ "WHERE `no`=?";
+												+ "where `no`=?";
+	
 	public static final String UPDATE_ARTICLE_HIT = "UPDATE `board_article` SET `hit` = `hit` + 1 WHERE `no`=?";
-	public static final String UPDATE_FILE_DOWNLOAD = "UPDATE `board_file` SET `download` = `download` + 1 WHERE `fno`=?";
+	public static final String UPDATE_FILE_DOWNLOAD = "UPDATE `board_file` SET `download` = `download` + 1 WHERE `fno`=?";  
 	
-	public static final String UPDATE_COMMENT = "UPDATE `board_article` SET `content`=?,`rdate`=NOW() WHERE `no`=?";
+	public static final String UPDATE_COMMENT = "UPDATE `board_article` SET `content`=?, `rdate`=NOW() WHERE `no`=?";
 	
+	public static final String DELETE_ARTICLE = "delete from `board_article` where `no`=? or `parent`=?";
 	public static final String DELETE_COMMENT = "delete from `board_article` where `no`=?";
-	public static final String DELETE_ARTICLE = "DELETE FROM `board_article` WHERE `no`=?  or `parent`=?";
 	public static final String DELETE_FILE = "delete from `board_file` where `parent`=?";
 	
 }
