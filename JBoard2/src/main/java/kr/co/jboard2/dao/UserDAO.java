@@ -104,7 +104,7 @@ public class UserDAO extends DBHelper {
 			logger.info("selectUser");
 			
 			conn = getConnection();
-			conn.prepareStatement(sql.SELECT_USER);
+			psmt = conn.prepareStatement(sql.SELECT_USER);
 			psmt.setString(1, uid);
 			psmt.setString(2, pass);
 			rs = psmt.executeQuery();
@@ -125,12 +125,40 @@ public class UserDAO extends DBHelper {
 				vo.setRdate(rs.getString(12));
 			}
 			
+			close();
+			
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}
 		
 		logger.debug("vo : " + vo);
 		return vo;
+	}
+	
+	public int selectCountNick(String nick) {
+		
+		int result = 0;
+		
+		try {
+			logger.info("selectCheckNick");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(sql.SELECT_COUNT_NICK);
+			psmt.setString(1, nick);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+			close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		
+		logger.debug("result : " + result);
+		
+		return result;
 	}
 	
 	public UserVO selectUserForFindId(String name, String email) {
@@ -183,6 +211,42 @@ public class UserDAO extends DBHelper {
 		return result;
 	}
 	
+	public UserVO selectUserBySessId(String sessId) {
+		
+		UserVO vo = null;
+		
+		try {
+			logger.info("seelctUserBySessId...");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(sql.SELECT_USER_BY_SESSID);
+			psmt.setString(1, sessId);
+			
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				vo = new UserVO();
+				vo.setUid(rs.getString(1));
+				vo.setPass(rs.getString(2));
+				vo.setName(rs.getString(3));
+				vo.setNick(rs.getString(4));
+				vo.setEmail(rs.getString(5));
+				vo.setHp(rs.getString(6));
+				vo.setGrade(rs.getInt(7));
+				vo.setZip(rs.getString(8));
+				vo.setAddr1(rs.getString(9));
+				vo.setAddr2(rs.getString(10));
+				vo.setRegip(rs.getString(11));
+				vo.setRdate(rs.getString(12));
+			}
+			
+			close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return vo;
+	}
+	
 	public void updateUser() {}
 	public int updateUserPassword(String pass, String uid) {
 		
@@ -203,5 +267,35 @@ public class UserDAO extends DBHelper {
 		}
 		return result;
 	}
+	
+	public void updateUserForSession(String uid, String sessId) {
+		try {
+			logger.info("updateUserForSession...");
+			
+			conn = getConnection();
+			psmt = conn.prepareCall(sql.UPDATE_USER_FOR_SESSION);
+			psmt.setString(1, sessId);
+			psmt.setString(2, uid);
+			psmt.executeUpdate();
+			close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	public void updateUserForSessionOut(String uid) {
+		try {
+			logger.info("updateUserSessionOut...");
+			
+			conn = getConnection();
+			psmt = conn.prepareCall(sql.UPDATE_USER_FOR_SESSION_OUT);
+			psmt.setString(1, uid);
+			psmt.executeUpdate();
+			close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
 	public void deleteUser() {}
 }

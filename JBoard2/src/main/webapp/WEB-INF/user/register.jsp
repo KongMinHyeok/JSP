@@ -1,9 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="./_header.jsp"/>
-<script src="/JBoard2/js/validation.js"></script>
+<!-- <script src="/JBoard2/js/validation.js"></script> -->
 <script>
 	
-	
+	let regPass = /^.*(?=^.{5,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+	let regUid   = /^[a-z]+[a-z0-9]{4,19}$/g;
+	let regName  = /^[가-힣]{2,4}$/;
+	let regNick  = /^[가-힣a-zA-Z0-9]+$/;
+	let regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	let regHp	 = /^\d{3}-\d{3,4}-\d{4}$/;
 	
 	$(function(){
 		
@@ -32,24 +37,37 @@
 			let pass2 = $(this).val();
 			
 			if(pass1 == pass2) {
-				$('.resultPw').css('color', 'green').text('비밀번호가 일치합니다');
+				
+				if(pass2.match(regPass)){
+					$('.resultPw').css('color', 'green').text('비밀번호가 일치합니다');
+				}else{
+					$('.resultPw').css('color', 'red').text('영문, 숫자, 특수문자 조합이 5자 이상이어야 합니다');
+				}
 			}else{
-				$('.resultPw').css('color', 'red').text('비밀번호가 일치하지 않습니다');
+				$('.resultPw').css('color', 'red').text('비밀번호가 일치하지 않습니다.');
 			}
 		});
 		
 		$('input[name=name]').focusout(function(){
 			let name = $(this).val();
 			
-			if(name =! null){
+			if(!name.match(regName)){
 				$('.resultName').css('color', 'red').text('이름이 2글자 이상 이어야 합니다');
 			}else{
 				$('.resultName').css('color', 'green').text('OK');
 			}
 		});
 		
-		$('input[]')
-		
+		$('#btnNick').click(function(){
+			
+			let nick = $('input[name=nick]').val();
+			
+			if(!nick.match(regNick)){
+				$('resultNick').css('color', 'red').text('별명이 유효하지 않습니다');
+				return;
+			}			
+			
+		});	
 	});
 	
 </script>
@@ -92,8 +110,8 @@
                             <td>
                                 <p class="nickInfo">공백없는 한글, 영문, 숫자 입력</p>
                                 <input type="text" name="nick" placeholder="별명 입력"/>
-                                <button type="button"><img src="../img/chk_id.gif" alt="중복확인"/></button>
-                                <span class="nickResult"></span>
+                                <button type="button" id="btnNick"><img src="../img/chk_id.gif" alt="중복확인"/></button>
+                                <span class="resultNick"></span>
                             </td>
                         </tr>
                         <tr>
