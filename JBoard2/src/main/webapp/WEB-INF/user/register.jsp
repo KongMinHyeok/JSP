@@ -67,7 +67,28 @@
 				return;
 			}			
 			
-		});	
+			let jsonData = {"nick", nick};
+			
+			$('.resultNick').css('color', 'black').text('...');
+			
+			setTimeOut(()=>{
+				
+				$.ajax({
+					url: '/JBoard2/user/checkNick.do',
+					type: 'get',
+					data: jsonData,
+					datatype: 'json'
+					success:function(data){
+						
+						if(data.result == 0) {
+							$('.resultNick').css('color', 'green').text('사용 가능한 별명입니다.');	
+						}else{
+							$('.resultNick').css('color', 'red').text('이미 사용중인 별명입니다.');
+						}
+					}
+				});
+			}, 500);
+		});
 	});
 	
 </script>
@@ -144,7 +165,7 @@
                     </table>
 
                     <div>
-                        <a href="./login.html" class="btn btnCancel">취소</a>
+                        <a href="/JBoard2/user/login.do" class="btn btnCancel">취소</a>
                         <input type="submit" value="회원가입" class="btn btnRegister"/>
                     </div>
                 </form>

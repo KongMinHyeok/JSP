@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <jsp:include page="./_header.jsp"/>
 <main id="board">
     <section class="list">                
@@ -15,7 +17,7 @@
                 <th>글쓴이</th>
                 <th>날짜</th>
                 <th>조회</th>
-            </tr>                    
+            </tr>
             <tr>
                 <td>1</td>
                 <td><a href="./view.html">테스트 제목입니다.[3]</a></td>

@@ -6,7 +6,7 @@
                     <caption>사이트 이용약관</caption>
                     <tr>
                         <td>
-                            <textarea name="terms">${requestScope.vo.terms}</textarea>
+                            <textarea name="terms">${vo.terms}</textarea>
                             <label><input type="checkbox" class="terms">&nbsp;동의합니다.</label>
                         </td>
                     </tr>

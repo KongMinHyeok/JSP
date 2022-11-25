@@ -9,9 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.co.jboard2.service.ArticleService;
+
 @WebServlet("/write.do")
 public class WriteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private ArticleService service = ArticleService.INSTANCE;
 	
 	@Override
 	public void init() throws ServletException {
@@ -25,5 +28,8 @@ public class WriteController extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	
+		service.insertFile(parent, newName, fname);
+		
 	}
 }

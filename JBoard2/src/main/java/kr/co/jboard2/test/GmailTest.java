@@ -30,7 +30,7 @@ public class GmailTest {
 		props.put("mail.smtp.ssl.enable", "true");
 		props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 		
-		// 미리ㅏ 등록한 사용자 정보를 가지고 Gmail 서버 인증
+		// 미리 등록한 사용자 정보를 가지고 Gmail 서버 인증
 		Session session = Session.getInstance(props, new Authenticator() {
 			
 			@Override
