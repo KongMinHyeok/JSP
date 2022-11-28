@@ -4,7 +4,7 @@
 <jsp:include page="./_header.jsp"/>
 <main id="board">
     <section class="list">                
-        <form action="#">
+        <form action="/JBoard2/list.do">
             <input type="text" name="search" placeholder="제목 키워드, 글쓴이 검색">
             <input type="submit" value="검색">
         </form>
@@ -18,6 +18,7 @@
                 <th>날짜</th>
                 <th>조회</th>
             </tr>
+            <c:forEach>
             <tr>
                 <td>1</td>
                 <td><a href="./view.html">테스트 제목입니다.[3]</a></td>
@@ -25,10 +26,13 @@
                 <td>20-05-12</td>
                 <td>12</td>
             </tr>
+            </c:forEach>
         </table>
 
         <div class="page">
-            <a href="#" class="prev">이전</a>
+        	<c:if test="${pageGroupStart > 1}">
+            <a href="/JBoard2/list.do?pg=${pageGroupStart - 1}&" class="prev">이전</a>
+            </c:if>
             <a href="#" class="num current">1</a>
             <a href="#" class="num">2</a>
             <a href="#" class="num">3</a>

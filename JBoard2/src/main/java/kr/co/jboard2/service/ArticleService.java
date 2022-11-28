@@ -11,10 +11,9 @@ import kr.co.jboard2.vo.ArticleVO;
 public enum ArticleService {
 
 	INSTANCE;
-	
 	private articleDAO dao = articleDAO.getInstance();
 	
-	public int insertArticle(articleDAO article) {
+	public int insertArticle(ArticleVO article) {
 		return dao.insertArticle(article);
 	}
 	
@@ -26,15 +25,28 @@ public enum ArticleService {
 		return dao.selectCountTotal();
 	}
 	
+	public int selectCountTotalForSearch(String keyword) {
+		return dao.selectCountTotalForSearch(keyword);
+	}
+	
 	public ArticleVO selectArticle(String no) {
 		return  dao.selectArticle(no);
 		
 	}
+	
 	public List<ArticleVO> selectArticles(int start) {
 		return dao.selectArticles(start);
 	}
+	
+	public List<ArticleVO> selectArticleByKeyword(String keyword, int start) {
+		return dao.selectArticleByKeyword(keyword, start);
+	}
 	public void updateArticle() {}
 	public void deleteArticle() {}
+	
+	public MultipartRequest uploadFIle(HttpServletRequest req, String path) throws {
+		
+	}
 	
 	public void uploadFile(HttpServletRequest req){
 		ServletContext ctx = req.getServletContext();
@@ -46,6 +58,8 @@ public enum ArticleService {
 		
 		return newName;
 	}
+	
+	
 	
 	
 }
