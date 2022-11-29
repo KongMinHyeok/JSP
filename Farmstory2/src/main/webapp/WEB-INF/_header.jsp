@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css"/>
     <link rel="stylesheet" href="/Farmstory2/css/style.css"/>
+    <link rel="stylesheet" href="/Farmstory2/css/user.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>    
@@ -31,7 +32,7 @@
             <p>
                 <a href="/Farmstory2/index.do">HOME |</a>
                 <a href="/Farmstory2/user/login.do">로그인 |</a>
-                <a href="/Farmstory2/user/register.do">회원가입 |</a>
+                <a href="/Farmstory2/user/terms.do">회원가입 |</a>
                 <a href="#">고객센터</a>
             </p>
             <img src="/Farmstory2/img/head_txt_img.png" alt="3만원 이상 무료배송"/>

@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/user/login.do")
-public class loginController extends HttpServlet{
+import kr.co.farmstory2.controller.dao.UserDAO;
+
+@WebServlet("/user/register.do")
+public class RegisterController extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
 
@@ -21,11 +23,14 @@ public class loginController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/user/login.jsp");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/user/register.jsp");
 		dispatcher.forward(req, resp);
+		
+		
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	}
+	
 }

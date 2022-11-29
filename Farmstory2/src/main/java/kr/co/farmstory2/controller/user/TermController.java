@@ -9,11 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/user/login.do")
-public class loginController extends HttpServlet{
+import kr.co.farmstory2.controller.dao.UserDAO;
+import kr.co.farmstory2.controller.vo.TermVO;
 
+@WebServlet("/user/terms.do")
+public class TermController extends HttpServlet  {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Override
 	public void init() throws ServletException {
 	}
@@ -21,7 +23,10 @@ public class loginController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/user/login.jsp");
+		TermVO vo = UserDAO.getInstance().selectTerms();
+		req.setAttribute("vo", vo);
+		
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/user/terms.jsp");
 		dispatcher.forward(req, resp);
 	}
 	
