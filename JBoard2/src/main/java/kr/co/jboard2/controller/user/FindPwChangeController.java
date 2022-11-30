@@ -17,7 +17,8 @@ import kr.co.jboard2.dao.UserDAO;
 @WebServlet("/user/findPwChange.do")
 public class FindPwChangeController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
-
+	
+	
 	@Override
 	public void init() throws ServletException {
 	}
@@ -28,7 +29,7 @@ public class FindPwChangeController extends HttpServlet{
 		String uid = req.getParameter("uid");
 		req.setAttribute("uid", uid);
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/user/findPwChange.jsp");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/user/myinfo.jsp");
 		dispatcher.forward(req, resp);
 	}
 	

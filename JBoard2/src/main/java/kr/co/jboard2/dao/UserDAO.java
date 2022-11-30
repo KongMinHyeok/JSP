@@ -135,6 +135,31 @@ public class UserDAO extends DBHelper {
 		return vo;
 	}
 	
+	public int updateUser(UserVO vo) {
+		
+		int result = 0;
+		
+		try {
+			logger.info("updateUser");
+			conn = getConnection();
+			psmt = conn.prepareStatement(sql.UPDATE_USER);
+			psmt.setString(1, vo.getName());
+			psmt.setString(2, vo.getNick());
+			psmt.setString(3, vo.getEmail());
+			psmt.setString(4, vo.getHp());
+			psmt.setString(5, vo.getZip());
+			psmt.setString(6, vo.getAddr1());
+			psmt.setString(7, vo.getAddr2());
+			psmt.setString(8, vo.getUid());
+			result = psmt.executeUpdate();
+			close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("result : " + result);
+		return result;
+	}
+	
 	public int selectCountNick(String nick) {
 		
 		int result = 0;
@@ -193,12 +218,34 @@ public class UserDAO extends DBHelper {
 		int result = 0;
 		
 		try {
-			logger.info("selectUserForFindId...");
+			logger.info("selectUserForFindPW...");
 			
 			conn = getConnection();
 			psmt = conn.prepareStatement(sql.SELECT_USER_FOR_FIND_PW);
 			psmt.setString(1, uid);
 			psmt.setString(2, email);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			close();
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		return result;
+	}
+	
+	public int selectUserForCheckPw(String pass) {
+		
+		int result = 0;
+		
+		try {
+			logger.info("selectUserForCheckPw start...");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(sql.SELECT_USER_FOR_CHECK_PW);
+			psmt.setString(1, pass);
 			rs = psmt.executeQuery();
 			
 			if(rs.next()) {
@@ -296,6 +343,7 @@ public class UserDAO extends DBHelper {
 			logger.error(e.getMessage());
 		}
 	}
+	
 	
 	public void deleteUser() {}
 }

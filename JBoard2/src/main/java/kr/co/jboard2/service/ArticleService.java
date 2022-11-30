@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
+import kr.co.jboard2.dao.UserDAO;
 import kr.co.jboard2.dao.articleDAO;
 import kr.co.jboard2.vo.ArticleVO;
 
@@ -19,6 +20,7 @@ public enum ArticleService {
 	
 	INSTANCE;
 	private articleDAO dao = articleDAO.getInstance();
+	private UserDAO udao = UserDAO.getInstance();
 
 	public int insertArticle(ArticleVO article) {
 		return dao.insertArticle(article);		
@@ -117,5 +119,6 @@ public enum ArticleService {
 	public int getStartNum(int currentPage) {
 		return (currentPage - 1) * 10;
 	}
+
 	
 }

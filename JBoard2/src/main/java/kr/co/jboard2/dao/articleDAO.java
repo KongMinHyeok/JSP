@@ -310,22 +310,26 @@ public class articleDAO extends DBHelper {
 		return comments;
 	}
 	
-	public void updateArticle(String no, String title, String content) {
-		
-		try {
-			Connection conn = getConnection();
-			PreparedStatement psmt = conn.prepareStatement(sql.UPDATE_ARTICLE);
+	public int updateArticle(String title, String content, String no) {
+		logger.info("updateArticle start...");
+		int result = 0;
+		try{
+			conn = getConnection();
+			
+			psmt = conn.prepareStatement(sql.UPDATE_ARTICLE);
 			psmt.setString(1, title);
 			psmt.setString(2, content);
 			psmt.setString(3, no);
+			result = psmt.executeUpdate();
 			
-			psmt.executeUpdate();
 			psmt.close();
 			conn.close();
-		}catch (Exception e) {
-			e.printStackTrace();
+		}catch(Exception e){
+			logger.error(e.getMessage());
 		}
+		return result;
 	}
+	
 	public void deleteArticle(String no) {
 		try {
 			Connection conn = getConnection();

@@ -16,6 +16,7 @@ import kr.co.jboard2.vo.UserVO;
 public class FindIdResultController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	
+	
 	@Override
 	public void init() throws ServletException {
 	}

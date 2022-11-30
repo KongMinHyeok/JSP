@@ -3,6 +3,7 @@ package kr.co.jboard2.controller.user;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,28 +13,37 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.JsonObject;
 
 import kr.co.jboard2.dao.UserDAO;
+import kr.co.jboard2.service.ArticleService;
+import kr.co.jboard2.service.UserService;
 
-@WebServlet("/user/checkNick.do")
-public class CheckNickController extends HttpServlet {
-
+@WebServlet("/user/findPwChange2.do")
+public class FindPwChange2Controller extends HttpServlet{
 	private static final long serialVersionUID = 1L;
+	private UserService service = UserService.INSTANCE;
+	
 	@Override
 	public void init() throws ServletException {
 	}
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		String nick = req.getParameter("nick");
-		int result = UserDAO.getInstance().selectCountNick(nick);
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		// JSON 출력
+		String pass2 =  req.getParameter("pass2");
+		String uid =  req.getParameter("uid");
+		
+		int result =  service.updateUserPassWord(uid, pass2);
+		
 		JsonObject json = new JsonObject();
 		json.addProperty("result", result);
 		
 		PrintWriter writer = resp.getWriter();
 		writer.print(json.toString());
+		
 	}
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	}
+	
 }

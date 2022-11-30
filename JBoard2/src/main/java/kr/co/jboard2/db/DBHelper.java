@@ -9,7 +9,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 public class DBHelper {
-	
+
 	protected Connection conn = null;
 	protected PreparedStatement psmt = null;
 	protected Statement stmt = null;
@@ -20,10 +20,10 @@ public class DBHelper {
 		try {
 			DataSource ds = (DataSource) new InitialContext().lookup("java:comp/env/dbcp_java1_board");
 			conn = ds.getConnection();
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return conn;
 	}
 	
@@ -32,21 +32,18 @@ public class DBHelper {
 			if(rs != null) {
 				rs.close();
 			}
-			
 			if(stmt != null) {
 				stmt.close();
 			}
-			
 			if(psmt != null) {
 				psmt.close();
 			}
-			
 			if(conn != null) {
 				conn.close();
 			}
-			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 }
+

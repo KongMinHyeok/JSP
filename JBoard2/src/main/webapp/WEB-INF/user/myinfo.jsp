@@ -1,20 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="./_header.jsp"/>
 <script src="http://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="/JBoard2/js/postcode.js"></script>
-<script src="/JBoard2/js/validation.js"></script>
+<script src="/JBoard1/js/postcode.js"></script>
+<script src="/JBoard2/js/validation2.js"></script>
+<script>
+	
+</script>
 <main id="user">
     <section class="register">
-        <form action="/JBoard2/user/register.do" method="post">
+        <form action="#" method="post">
             <table border="1">
-                <caption>사이트 이용정보 입력</caption>
+                <caption>회원정보 설정</caption>
                 <tr>
                     <td>아이디</td>
-                    <td>
-                        <input type="text" name="uid" placeholder="아이디 입력"/>
-                        <button type="button" id="btnUidCheck"><img src="../img/chk_id.gif" alt="중복확인"/></button>
-                        <span class="resultUid"></span>
-                    </td>
+                    <td>${sessUser.uid}</td>
                 </tr>
                 <tr>
                     <td>비밀번호</td>
@@ -25,12 +24,19 @@
                 </tr>
                 <tr>
                     <td>비밀번호 확인</td>
-                    <td><input type="password" name="pass2" placeholder="비밀번호 입력 확인"/></td>
+                    <td>
+                    	<input type="password" name="pass2" placeholder="비밀번호 입력 확인"/>
+                    	<button type="button" id="btnNext">비밀번호 수정</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>회원가입일</td>
+                    <td>${sessUser.rdate}</td>
                 </tr>
             </table>
 
             <table border="1">
-                <caption>개인정보 입력</caption>
+                <caption>개인정보 수정</caption>
                 <tr>
                     <td>이름</td>
                     <td>
@@ -75,12 +81,18 @@
 	                    <input type="text" name="addr2" id="addr2" placeholder="상세주소 입력"/>
 	                </td>
 	            </tr>
+	            <tr>
+	            	<td>회원탈퇴</td>
+	            	<td>
+	            		<button type="button" id="btnRm" style="padding:6px; background: #ed2f2f; color: #fff;">회원탈퇴</button>
+	            	</td>
+	            </tr>
                 
             </table>
 
             <div>
-                <a href="/JBoard2/user/login.do" class="btn btnCancel">취소</a>
-                <input type="submit" value="회원가입" class="btn btnRegister"/>
+                <a href="#" class="btn btnCancel">취소</a>
+                <input type="submit" value="회원수정" class="btn btnRegister"/>
             </div>
 
         </form>
