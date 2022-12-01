@@ -19,18 +19,24 @@
 				$('.resultUid').css('color', 'red').text('아이디가 유효하지 않습니다.');	
 			}
 			
+			let jsonData = {"uid":uid}
+			
 			$('.resultUid').css('color', 'black').text('...');
 			
 			setTimeOut(() => {
-				url: '',
-				method: '',
-				data: '',
-				dataType: '',
+				url:'/Farmstory2/user/checkUid.do',
+				method: 'get',
+				data: jsonData,
+				dataType: 'json',
 				success:function(data){
-					
+					if(data.result == 0){
+						$('.resultUid').css('color', 'green').text('사용 가능한 아이디 입니다.');
+					}else{
+						$('.resultUid').css('color', 'red').text('이미 사용중인 아이디 입니다.');
+					}
 				}
 				
-			})
+			}, 500);
 			
 		});
 		

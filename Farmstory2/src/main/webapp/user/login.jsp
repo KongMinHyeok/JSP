@@ -4,11 +4,11 @@
             <form action="/Farmstory/user/proc/loginProc.jsp" method="post">
                 <table border="0">
                     <tr>
-                        <td><img src="../img/login_ico_id.png" alt="로그인"/></td>
+                        <td><img src="/Farmstory2/img/login_ico_id.png" alt="로그인"/></td>
                         <td><input type="text" name="uid" placeholder="아이디 입력"/></td>
                     </tr>
                     <tr>
-                        <td><img src="../img/login_ico_pw.png" alt="비밀번호"></td>
+                        <td><img src="/Farmstory2/img/login_ico_pw.png" alt="비밀번호"></td>
                         <td><input type="password" name="pass" placeholder="비밀번호 입력"/></td>
                     </tr>
                 </table>
