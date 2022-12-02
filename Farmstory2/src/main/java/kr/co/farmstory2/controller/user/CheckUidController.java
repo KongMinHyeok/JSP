@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import com.google.gson.JsonObject;
 import kr.co.farmstory2.controller.dao.UserDAO;
 import kr.co.farmstory2.service.UserService;
 
+@WebServlet("/user/checkUid.do")
 public class CheckUidController extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
@@ -32,8 +34,8 @@ public class CheckUidController extends HttpServlet{
 		JsonObject json = new JsonObject();
 		json.addProperty("result", result);
 		
-		
-		
+		PrintWriter writer = resp.getWriter();
+		writer.print(json.toString());
 		
 	}
 	

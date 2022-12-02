@@ -12,4 +12,8 @@ public enum UserService {
 		return udao.selectCountUid(uid);
 	}
 	
+	public int selectCountNick(String nick) {
+		return udao.selectCountNick(nick);
+	}
+	
 }
