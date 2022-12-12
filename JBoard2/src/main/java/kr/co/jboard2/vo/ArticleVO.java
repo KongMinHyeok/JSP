@@ -15,9 +15,10 @@ public class ArticleVO {
 	private String rdate;
 	
 	private String nick;
-	private String fname;
 	
 	private int fno;
+	
+	private String fname;
 	private String oriName;
 	private int download;
 	
@@ -27,35 +28,30 @@ public class ArticleVO {
 	public void setFno(int fno) {
 		this.fno = fno;
 	}
-	
+	public String getFname() {
+		return fname;
+	}
+	public void setFname(String fno) {
+		this.fname = fno;
+	}
 	public String getOriName() {
 		return oriName;
 	}
 	public void setOriName(String oriName) {
 		this.oriName = oriName;
 	}
-	
 	public int getDownload() {
 		return download;
 	}
 	public void setDownload(int download) {
 		this.download = download;
 	}
-	
 	public String getNick() {
 		return nick;
 	}
 	public void setNick(String nick) {
 		this.nick = nick;
 	}
-	
-	public String getFname() {
-		return fname;
-	}
-	public void setFname(String fname) {
-		this.fname = fname;
-	}
-	
 	public int getNo() {
 		return no;
 	}
@@ -67,9 +63,6 @@ public class ArticleVO {
 	}
 	public void setParent(int parent) {
 		this.parent = parent;
-	}
-	public void setParent(String parent) {
-		this.parent = Integer.parseInt(parent);
 	}
 	public int getComment() {
 		return comment;
@@ -125,6 +118,5 @@ public class ArticleVO {
 	public void setRdate(String rdate) {
 		this.rdate = rdate;
 	}
-	
 	
 }

@@ -1,55 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="./_header.jsp"/>
-<script src="/JBoard2/js/EmailAuth.js"></script>
-<script>
-
-	$(function(){
-		
-		$('.btnNext').click(function(e){
-			
-			console.log('here1 : ' + isEmailAuthOk);
-			
-			if(isEmailAuthOk){
-				console.log('here2');
-				
-				let uid = $('input[name=uid]').val();
-				let email = $('input[name=email]').val();
-				
-				let jsonData = {
-						"uid": uid,
-						"email": email
-				};
-				
-				$.ajax({
-					url: '/JBoard2/user/findPw.do',
-					type: 'post',
-					data: jsonData,
-					dataType: 'json',
-					success: function(data){
-						
-						if(data.result == 1){
-							location.href = "/JBoard2/user/findPwChange.do?uid="+uid;
-						}else {
-							alert('해당하는 사용자가 존재하지 않습니다. \n아이디과 이메일을 다시 확인하십사오.');
-						}
-					}
-				});
-				return false;
-			}else{
-				alert('이메일 인증 하셔야 합니다.');
-				console.log('here3');
-				return false;
-			}
-			
-		});
-		
-	});
-
-
-</script>
+<script src="/JBoard2/js/emailAuth.js"></script>
 <main id="user">
     <section class="find findPw">
-        <form action="#">
+        <form action="/JBoard2/user/findPw.do">
             <table border="0">
                 <caption>비밀번호 찾기</caption>                        
                 <tr>
@@ -61,12 +15,11 @@
                     <td>
                         <div>
                             <input type="email" name="email" placeholder="이메일 입력"/>
-                            <span class="resultEmail"></span>
-                            <button type="button" class="btnAuth" id="btnEmail">인증번호 받기</button>
+                            <button type="button" class="btnAuth">인증번호 받기</button>
                         </div>
-                        <div class="auth">
-                            <input type="text" name="auth" placeholder="인증번호 입력"/>
-                            <button type="button" class="btnConfirm" id="btnEmailConfirm">확인</button>
+                        <div>
+                            <input type="text" name="auth" disabled placeholder="인증번호 입력"/>
+                            <button type="button" class="btnConfirm">확인</button>
                         </div>
                     </td>
                 </tr>                        
@@ -81,7 +34,7 @@
 
         <div>
             <a href="/JBoard2/user/login.do" class="btn btnCancel">취소</a>
-            <a href="/JBoard2/user/findPwChange.do" class="btn btnNext">다음</a>
+            <a href="/JBoard2/user/findPwChange.do" class="btn btnNextPw">다음</a>
         </div>
     </section>
 </main>

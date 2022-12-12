@@ -17,16 +17,15 @@ import kr.co.jboard2.dao.UserDAO;
 public class CheckUidController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+
 	@Override
 	public void init() throws ServletException {
 	}
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
 		String uid = req.getParameter("uid");
 		int result = UserDAO.getInstance().selectCountUid(uid);
 		
-		// JSON 출력
 		JsonObject json = new JsonObject();
 		json.addProperty("result", result);
 		

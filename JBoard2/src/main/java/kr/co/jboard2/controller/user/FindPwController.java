@@ -16,31 +16,27 @@ import com.google.gson.JsonObject;
 import kr.co.jboard2.dao.UserDAO;
 
 @WebServlet("/user/findPw.do")
-public class FindPwController extends HttpServlet{
+public class FindPwController extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	public void init() throws ServletException {
-
 	}
-	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
 		HttpSession sess = req.getSession();
 		sess.removeAttribute("sessUserForFindId");
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/user/findPw.jsp");
 		dispatcher.forward(req, resp);
 	}
- 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String uid =req.getParameter("uid");
+		String email =req.getParameter("email");
 	
-		String uid = req.getParameter("uid");
-		String email = req.getParameter("email");
-		
-		int result = UserDAO.getInstance().selectUserForFindPw(uid, email);
+		int result = UserDAO.getInstance().findUserPass(uid, email);
 		
 		JsonObject json = new JsonObject();
 		json.addProperty("result", result);
@@ -48,5 +44,4 @@ public class FindPwController extends HttpServlet{
 		PrintWriter writer = resp.getWriter();
 		writer.print(json.toString());
 	}
-	
 }

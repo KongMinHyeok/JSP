@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,55 +15,63 @@ import javax.servlet.http.HttpServletResponse;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
-import kr.co.jboard2.service.ArticleService;
+import kr.co.jboard2.dao.ArticleDAO;
 import kr.co.jboard2.vo.ArticleVO;
+import kr.co.jboard2.vo.UserVO;
 
 @WebServlet("/write.do")
 public class WriteController extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
-	private ArticleService service = ArticleService.INSTANCE;
-	
+
 	@Override
 	public void init() throws ServletException {
 	}
-	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/write.jsp");
 		dispatcher.forward(req, resp);
 	}
-	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// multipart 전송 데이터 수신
-		ServletContext ctx = req.getServletContext();
-		String path = ctx.getRealPath("/file");
 		
-		MultipartRequest mr = service.uploadFile(req, path);
-		String title   = mr.getParameter("title");
-		String content = mr.getParameter("content");
-		String uid     = mr.getParameter("uid");
-		String fname   = mr.getFilesystemName("fname");
-		String regip   = req.getRemoteAddr();
+		//데이터 수신
+		String savePath = req.getRealPath("/file");
+		int maxSize = 1024 * 1024 * 10;
+		MultipartRequest mr = new MultipartRequest(req, savePath, maxSize, "UTF-8", new DefaultFileRenamePolicy());
 		
-		ArticleVO article = new ArticleVO();
-		article.setTitle(title);
-		article.setContent(content);
-		article.setUid(uid);
-		article.setFname(fname);
-		article.setRegip(regip);
+		String title = mr.getParameter("title");
+		String content= mr.getParameter("content");
+		String uid = mr.getParameter("uid");
+		String regip = req.getRemoteAddr();
+
+		String fname = mr.getFilesystemName("file");
 		
-		int parent = service.insertArticle(article);
+		ArticleVO vo = new ArticleVO();
+		vo.setTitle(title);
+		vo.setContent(content);
+		vo.setFname(fname);
+		vo.setUid(uid);
+		vo.setRegip(regip);
 		
-		// 파일을 첨부했으면 파일처리
-		if(fname != null){			
-			// 파일명 수정
-			String newName = service.renameFile(article, path);
+		ArticleDAO dao = ArticleDAO.getInstance();
+		int parent = dao.insertArticle(vo);
+		
+		//파일처리
+		if(fname != null){
+			int idx = fname.lastIndexOf(".");
+			String ext = fname.substring(idx);
+			String now = new SimpleDateFormat("yyyyMMddHHmmss_").format(new Date());
+			String newFname = now+ext;
 			
-			// 파일 테이블 저장
-			service.insertFile(parent, newName, fname);
+			File oriFile = new File(savePath+"/"+fname);
+			File newFile = new File(savePath+"/"+newFname);
+			
+			oriFile.renameTo(newFile);
+			
+			dao.insertFile(parent, fname, newFname);
 		}
 		
-		resp.sendRedirect("/JBoard2/list.do");	
+		resp.sendRedirect("/JBoard2/list.do");
 	}
 }

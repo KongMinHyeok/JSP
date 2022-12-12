@@ -14,7 +14,6 @@ input, textarea {outline: none;}
     margin: 0 auto;
 }
 
-
 /* 헤더 */
 header {
     width: 100%;
@@ -332,7 +331,6 @@ footer > p {
     margin-top: 10px;
 }
 
-
 /* 글보기 */
 #board > .view {
     width: 720px;
@@ -557,4 +555,21 @@ footer > p {
 #user > .find > div {
     float: right;
     margin-top: 10px;
+}
+#board > .list > form {
+    float: right;
+    margin-bottom: -14px;
+}
+
+#board > .list > form > input[name=search]{
+    width: 200px;
+    height: 26px;
+    text-indent: 6px;
+    border: 1px solid #d7d7d7;
+}
+#board > .list > form > input[type=submit]{
+    border: 1px solid #d7d7d7;
+    background: #f2f2f2; 
+    color: #111;
+    padding: 6px;
 }

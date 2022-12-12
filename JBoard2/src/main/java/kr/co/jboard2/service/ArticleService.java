@@ -12,15 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
-import kr.co.jboard2.dao.UserDAO;
-import kr.co.jboard2.dao.articleDAO;
+import kr.co.jboard2.dao.ArticleDAO;
 import kr.co.jboard2.vo.ArticleVO;
 
 public enum ArticleService {
 	
 	INSTANCE;
-	private articleDAO dao = articleDAO.getInstance();
-	private UserDAO udao = UserDAO.getInstance();
+	private ArticleDAO dao = ArticleDAO.getInstance();
 
 	public int insertArticle(ArticleVO article) {
 		return dao.insertArticle(article);		
@@ -29,24 +27,19 @@ public enum ArticleService {
 		dao.insertFile(parent, newName, fname);
 	}
 	
-	public int selectCountTotal() {
-		return dao.selectCountTotal();
+//	public int selectCountTotal() {
+//		return dao.selectCountTotal();
+//	}
+//	
+//	public ArticleVO selectArticle(String no) {
+//		return dao.selectArticle(no);
+//	}
+	public List<ArticleVO> selectArticles() {
+		return dao.selectArticles();
 	}
 	
-	public int selectCountTotalForSearch(String keyword) {
-		return dao.selectCountTotalForSearch(keyword);
-	}
-	
-	
-	public ArticleVO selectArticle(String no) {
-		return dao.selectArticle(no);
-	}
-	public List<ArticleVO> selectArticles(int start) {
-		return dao.selectArticles(start);
-	}
-	
-	public List<ArticleVO> selectArticleByKeyword(String keyword, int start) {
-		return dao.selectArticleByKeyword(keyword, start);
+	public List<ArticleVO> selectArticleByKeyWord(String keyword) {
+		return dao.selectArticleByKeyWord(keyword);
 	}
 	
 	public void updateArticle() {}
@@ -119,6 +112,5 @@ public enum ArticleService {
 	public int getStartNum(int currentPage) {
 		return (currentPage - 1) * 10;
 	}
-
 	
 }

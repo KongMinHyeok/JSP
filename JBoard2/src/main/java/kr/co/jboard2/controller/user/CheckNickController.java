@@ -17,16 +17,15 @@ import kr.co.jboard2.dao.UserDAO;
 public class CheckNickController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	
 	@Override
 	public void init() throws ServletException {
 	}
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
 		String nick = req.getParameter("nick");
 		int result = UserDAO.getInstance().selectCountNick(nick);
 		
-		// JSON 출력
 		JsonObject json = new JsonObject();
 		json.addProperty("result", result);
 		
@@ -36,4 +35,5 @@ public class CheckNickController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	}
+
 }

@@ -15,38 +15,32 @@ import com.google.gson.JsonObject;
 import kr.co.jboard2.dao.UserDAO;
 
 @WebServlet("/user/findPwChange.do")
-public class FindPwChangeController extends HttpServlet{
+public class FindPwChangeController extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
-	
-	
+
 	@Override
 	public void init() throws ServletException {
 	}
-	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
 		String uid = req.getParameter("uid");
 		req.setAttribute("uid", uid);
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/user/myinfo.jsp");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/user/findPwChange.jsp");
 		dispatcher.forward(req, resp);
 	}
-	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String pass = req.getParameter("pass");
+		String uid = req.getParameter("uid");
 		
-		String pass =  req.getParameter("pass");
-		String uid =  req.getParameter("uid");
-		
-		int result =  UserDAO.getInstance().updateUserPassword(pass, uid);
+		int result = UserDAO.getInstance().updateUserPass(pass, uid);
 		
 		JsonObject json = new JsonObject();
 		json.addProperty("result", result);
 		
 		PrintWriter writer = resp.getWriter();
 		writer.print(json.toString());
-		
 	}
-	
 }

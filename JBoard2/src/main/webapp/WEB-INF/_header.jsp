@@ -1,37 +1,20 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>게시판</title>
     <link rel="stylesheet" href="/JBoard2/css/style.css"/>
-    <style>
-        #board > .list > form {
-            float: right;
-            margin-bottom: -14px;
-        }
-        #board > .list > form > input[name=search]{
-            width: 200px;
-            height: 26px;
-            text-indent: 6px;
-            border: 1px solid #d7d7d7;
-        }
-        #board > .list > form > input[type=submit]{
-            border: 1px solid #d7d7d7;
-            background: #f2f2f2; 
-            color: #111;
-            padding: 6px;
-        }
-    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body>
     <div id="wrapper">
         <header>
-            <h3>Board System v2.0</h3>
+            <h3>Board System v1.0></h3>
             <p>
-                <span>${sessUser.nick}</span>님 반갑습니다.
+                <span>${sessionScope.sessUser.nick }</span>님 반갑습니다.
                 <a href="/JBoard2/user/info.do">[회원정보]</a>
                 <a href="/JBoard2/user/logout.do?uid=${sessUser.uid}">[로그아웃]</a>
             </p>
         </header>
-        

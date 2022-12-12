@@ -1,96 +1,129 @@
-
-
-let isEmailAuthOk = false;
-let preventDoubleClick = false;
-let receivedCode = 0;	
-
-// 이메일 유효성 검사
-
+/**
+ * 
+ */
 $(function(){
+	let regMail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	
+	//인증번호
+	let receivedCode = 0;
+	let isEmailAuthOk = false;
+	
+	//이메일 유효성 검사
+	$('input[name=email]').keydown(function(){
+		isEmailAuthOk = false;
+	});
 	
 	$('input[name=email]').focusout(function(){
 		let email = $(this).val();
-		
-		if(!email.match(regEmail)){
-			isEmailOk = false;
-			$('.resultEmail').css('color', 'red').text('이메일이 유효하지 않습니다.');
-		}else{
-			isEmailOk = true;
-			$('.resultEmail').text('');
-		}			
+		if(!email.match(regMail)){
+			alert('유효하지 않은 이메일입니다.');
+			isEmailAuthOk = false;
+		}
 	});
 	
-	// 이메일 인증코드 발송 클릭
-	$('#btnEmail').click(function(){
-		
-		$(this).hide();			
+	//이메일 인증번호 받기
+	$('.btnAuth').click(function(){
 		let email = $('input[name=email]').val();
-		console.log('here1 : ' + email);
 		
 		if(email == ''){
-			alert('이미엘을 입력 하세요.');
+			alert('이메일을 입력하세요.');
 			return;
 		}
 		
-		if(preventDoubleClick){
-			console.log('here2');
-			return;
-		}
-		
-		preventDoubleClick = true;
-		
-		$('.resultEmail').text('인증코드 전송 중 입니다. 잠시만 기다리세요...');
-		console.log('here3');
-		
-		setTimeout(function(){
-			console.log('here4');
-			
-			$.ajax({
-				url: '/JBoard2/user/emailAuth.do',
-				method: 'GET',
-				data: {"email": email},
-				dataType: 'json',
-				success: function(data){
-					//console.log(data);
-					
-					if(data.status > 0){
-						// 메일전송 성공
-						console.log('here5');
-						$('.resultEmail').text('이메일을 확인 후 인증코드를 입력하세요.');
-						$('.auth').show();
-						receivedCode = data.code;
-						
-					}else{
-						// 메일전송 실패
-						console.log('here6');
-						alert('메일전송이 실패 했습니다.\n다시 시도 하시기 바랍니다.');
-					}
-				}
-			});
-		}, 1000);
+		$.ajax({
+			url:'/JBoard2/user/emailAuth.do',
+			method:'get',
+			data:{'email':email},
+			dataType:'json',
+			success:function(data){
+				receivedCode = data.code;
+				$('input[name=auth]').attr('disabled', false);
+			}
+		});
 	});
 	
-	
-	// 이메일 인증코드 확인 버튼
-	$('#btnEmailConfirm').click(function(){
-		
+	//이메일 인증번호 확인
+	$(".btnConfirm").click(function(){
 		let code = $('input[name=auth]').val();
 		
 		if(code == ''){
-			alert('이메일 확인 후 인증코드를 입력하세요.');
+			alert('인증코드를 입력하세요.');
 			return;
 		}
-		
 		if(code == receivedCode){
+			alert('이메일이 인증 되었습니다.');
+			$('input[name=auth]').attr('disabled', true);
 			isEmailAuthOk = true;
-			$('input[name=email]').attr('readonly', true);
-			$('.resultEmail').text('이메일이 인증 되었습니다.');				
-			$('.auth').hide();
 		}else{
 			isEmailAuthOk = false;
-			alert('인증코드가 틀립니다.\n다시 확인 하십시요.');
+			alert('인증코드가 틀렸습니다.')
+		}
+	});
+	
+	//다음 버튼 클릭시 (아이디)
+	$('.btnNextId').click(function(){
+		if(isEmailAuthOk){
+			let name = $('input[name=name]').val();
+			let email = $('input[name=email]').val();
+			
+			let jsonData = {
+				"name":name,
+				"email":email
+			};
+			
+			$.ajax({
+				url:'/JBoard2/user/findId.do',
+				type:'post',
+				data:jsonData,
+				dataType:'json',
+				success:function(data){
+					console.log(data.result);
+					if(data.result == 1){
+						location.href="/JBoard2/user/findIdResult.do";
+					}else{
+						alert('등록된 사용자가 없습니다.\n이름과 이메일을 다시 확인하십시요.');
+					}
+				}
+			});
+			
+			return false;
+		}else{
+			alert('인증을 완료해주십시요.');
+			return false;
+		}
+	});
+	
+	//다음 버튼 클릭시 (비밀번호)
+	$('.btnNextPw').click(function(){
+		if(isEmailAuthOk){
+			let uid = $('input[name=uid]').val();
+			let email = $('input[name=email]').val();
+			
+			let jsonData = {
+				"uid":uid,
+				"email":email
+			};
+			
+			$.ajax({
+				url:'/JBoard2/user/findPw.do',
+				type:'post',
+				data:jsonData,
+				dataType:'json',
+				success:function(data){
+					console.log(data.result);
+					if(data.result == 1){
+						location.href="/JBoard2/user/findPwChange.do?uid=" + uid;
+					}else{
+						alert('등록된 사용자가 없습니다.\n아이디와 이메일을 다시 확인하십시요.');
+					}
+				}
+			});
+			
+			return false;
+		}else{
+			alert('인증을 완료해주십시요.');
+			return false;
 		}
 	});
 	
 });
-	
