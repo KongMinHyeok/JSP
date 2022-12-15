@@ -4,18 +4,18 @@ public class Sql {
 
 	//회원가입
 	public static final String INSERT_USER = "INSERT INTO `board_users` SET "
-																			+ "`uid`=?,"
-																			+ "`pass`=SHA2(?,256),"
-																			+ "`name`=?,"
-																			+ "`nick`=?,"
-																			+ "`email`=?,"
-																			+ "`hp`=?,"
-																			+ "`zip`=?,"
-																			+ "`addr1`=?,"
-																			+ "`addr2`=?,"
-																			+ "`regip`=?,"
-																			+ "`rdate`=now()";
-	
+											+ "`uid`=?,"
+											+ "`pass`=SHA2(?,256),"
+											+ "`name`=?,"
+											+ "`nick`=?,"
+											+ "`email`=?,"
+											+ "`hp`=?,"
+											+ "`zip`=?,"
+											+ "`addr1`=?,"
+											+ "`addr2`=?,"
+											+ "`regip`=?,"
+											+ "`rdate`=now()";
+
 	//약관내용
 	public static final String SELECT_TERMS = "SELECT * FROM  `board_terms`";
 		
@@ -51,28 +51,25 @@ public class Sql {
 	
 	//회원탈퇴
 	public static final String DELETE_USER = "UPDATE `board_users` SET `grade`= 0, `wdate`=NOW() WHERE `uid`=?";
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//글쓰기
 	public static final String INSERT_ARTICLE = "INSERT INTO `board_article` SET "
-																			+ "`title`=?,"
-																			+ "`content`=?,"
-																			+ "`file`=?,"
-																			+ "`uid`=?,"
-																			+ "`regip`=?,"
-																			+ "`rdate`=NOW()";
+											+ "`title`=?,"
+											+ "`content`=?,"
+											+ "`file`=?,"
+											+ "`uid`=?,"
+											+ "`regip`=?,"
+											+ "`rdate`=NOW()";
 	//제일 늦게 작성된 글 번호
 	public static final String SELECT_MAX_NO = "SELECT MAX(`no`) FROM `board_article`";
 	
 	//파일쓰기
 	public static final String INSERT_FILE = "INSERT INTO `board_file` SET "
-																			+ "`parent`=?,"
-																			+ "`newName`=?,"
-																			+ "`oriName`=?,"
-																			+ "`rdate`=NOW()";
-	
+											+ "`parent`=?,"
+											+ "`newName`=?,"
+											+ "`oriName`=?,"
+											+ "`rdate`=NOW()";
+
 	//댓글쓰기
 	public static final String INSERT_COMMENT = "INSERT INTO `board_article`(`parent`, `content`, `uid`, `regip`, `rdate`) VALUES (?,?,?,?,NOW())";
 	
@@ -84,13 +81,13 @@ public class Sql {
 	
 	//글보기
 	public static final String SELECT_ARTICLE = "SELECT a.*,b.`fno`,b.`oriName`,b.`download` FROM `board_article` AS a "
-																			+ "LEFT JOIN `board_file` AS b "
-																			+ "ON a.`no`=b.`parent` WHERE `no`=?";
+												+ "LEFT JOIN `board_file` AS b "
+												+ "ON a.`no`=b.`parent` WHERE `no`=?";
 	
 	//댓글 리스트
 	public static final String SELECT_COMMENTS = "SELECT a.*, b.nick FROM `board_article` AS a "
-																			+ "JOIN `board_users` AS b USING (`uid`) "
-																			+ "WHERE `parent`=? ORDER BY `no` asc";
+												+ "JOIN `board_users` AS b USING (`uid`) "
+												+ "WHERE `parent`=? ORDER BY `no` asc";
 	
 	//조회수
 	public static final String UPDATE_ARTICLE_HIT = "UPDATE `board_article` SET `hit`=`hit`+1 WHERE `no`=?";
